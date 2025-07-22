@@ -1,6 +1,6 @@
 import 'package:e_commerce_app_using_supabase/core/components/custom_circle_pro_ind.dart';
 import 'package:e_commerce_app_using_supabase/core/functions/show_message.dart';
-import 'package:e_commerce_app_using_supabase/views/product_details/logic/cubit/authentication_cubit.dart';
+import 'package:e_commerce_app_using_supabase/views/auth/logic/cubit/authentication_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:e_commerce_app_using_supabase/core/app_colors.dart';
 import 'package:e_commerce_app_using_supabase/core/functions/navigate_to.dart';
@@ -24,6 +24,8 @@ class _LoginViewState extends State<LoginView> {
   late final TextEditingController passwordController;
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
+  bool isPasswordHidden = true;
+
   @override
   void initState() {
     emailController = TextEditingController();
@@ -44,8 +46,12 @@ class _LoginViewState extends State<LoginView> {
       listener: (context, state) {
         if (state is LoginFailure) {
           showMessage(context, state.errorMessage);
-        } else if (state is LoginSuccess) {
-          navigateTo(context, MainHomeView());
+        }
+        if (state is LoginSuccess || state is GoogleSignInSuccess) {
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (context) => MainHomeView()),
+          );
         }
       },
       builder: (context, state) {
@@ -90,10 +96,18 @@ class _LoginViewState extends State<LoginView> {
                                     controller: passwordController,
                                     keyboardType: TextInputType.visiblePassword,
                                     labelText: "Password",
-                                    isSecured: true,
+                                    isSecured: isPasswordHidden,
                                     suffIcon: IconButton(
-                                      onPressed: () {},
-                                      icon: const Icon(Icons.visibility_off),
+                                      onPressed: () {
+                                        setState(() {
+                                          isPasswordHidden = !isPasswordHidden;
+                                        });
+                                      },
+                                      icon: Icon(
+                                        isPasswordHidden
+                                            ? Icons.visibility
+                                            : Icons.visibility_off,
+                                      ),
                                     ),
                                   ),
                                   const SizedBox(height: 20),
@@ -126,8 +140,7 @@ class _LoginViewState extends State<LoginView> {
                                   const SizedBox(height: 20),
                                   CustomRowWithArrowBtn(
                                     text: "Login With Google",
-                                    onTap: () =>
-                                        navigateTo(context, MainHomeView()),
+                                    onTap: () => cubit.googleSignIn(),
                                   ),
                                   const SizedBox(height: 20),
                                   Row(
