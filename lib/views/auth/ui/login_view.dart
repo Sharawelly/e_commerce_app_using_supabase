@@ -21,23 +21,23 @@ class LoginView extends StatefulWidget {
 }
 
 class _LoginViewState extends State<LoginView> {
-  late final TextEditingController emailController;
-  late final TextEditingController passwordController;
+  late final TextEditingController _emailController;
+  late final TextEditingController _passwordController;
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   bool isPasswordHidden = true;
 
   @override
   void initState() {
-    emailController = TextEditingController();
-    passwordController = TextEditingController();
+    _emailController = TextEditingController();
+    _passwordController = TextEditingController();
     super.initState();
   }
 
   @override
   void dispose() {
-    emailController.dispose();
-    passwordController.dispose();
+    _emailController.dispose();
+    _passwordController.dispose();
     super.dispose();
   }
 
@@ -85,13 +85,13 @@ class _LoginViewState extends State<LoginView> {
                               child: Column(
                                 children: [
                                   CustomTextFormField(
-                                    controller: emailController,
+                                    controller: _emailController,
                                     labelText: "Email",
                                     keyboardType: TextInputType.emailAddress,
                                   ),
                                   const SizedBox(height: 20),
                                   CustomTextFormField(
-                                    controller: passwordController,
+                                    controller: _passwordController,
                                     keyboardType: TextInputType.visiblePassword,
                                     labelText: "Password",
                                     isSecured: isPasswordHidden,
@@ -129,8 +129,8 @@ class _LoginViewState extends State<LoginView> {
                                     onTap: () {
                                       if (_formKey.currentState!.validate()) {
                                         cubit.login(
-                                          email: emailController.text,
-                                          password: passwordController.text,
+                                          email: _emailController.text,
+                                          password: _passwordController.text,
                                         );
                                       }
                                     },

@@ -1,7 +1,7 @@
 import 'dart:developer';
 
 import 'package:bloc/bloc.dart';
-import 'package:e_commerce_app_using_supabase/views/product_details/logic/models/user_data_model.dart';
+import 'package:e_commerce_app_using_supabase/views/auth/logic/models/user_data_model.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 import 'package:meta/meta.dart';
@@ -45,7 +45,7 @@ class AuthenticationCubit extends Cubit<AuthenticationState> {
         email: email,
         password: password,
       );
-
+      await addUserData(name: name, email: email);
       emit(SignUpSuccess());
     } on AuthException catch (e) {
       log(e.toString());

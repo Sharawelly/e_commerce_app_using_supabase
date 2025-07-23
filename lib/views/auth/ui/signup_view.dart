@@ -17,24 +17,24 @@ class SignupView extends StatefulWidget {
 }
 
 class _SignupViewState extends State<SignupView> {
-  late final TextEditingController nameController;
-  late final TextEditingController emailController;
-  late final TextEditingController passwordController;
+  late final TextEditingController _nameController;
+  late final TextEditingController _emailController;
+  late final TextEditingController _passwordController;
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   @override
   void initState() {
-    nameController = TextEditingController();
-    emailController = TextEditingController();
-    passwordController = TextEditingController();
+    _nameController = TextEditingController();
+    _emailController = TextEditingController();
+    _passwordController = TextEditingController();
     super.initState();
   }
 
   @override
   void dispose() {
-    nameController.dispose();
-    emailController.dispose();
-    passwordController.dispose();
+    _nameController.dispose();
+    _emailController.dispose();
+    _passwordController.dispose();
     super.dispose();
   }
 
@@ -84,17 +84,20 @@ class _SignupViewState extends State<SignupView> {
                               padding: const EdgeInsets.all(16.0),
                               child: Column(
                                 children: [
-                                  const CustomTextFormField(
+                                  CustomTextFormField(
                                     labelText: "Name",
                                     keyboardType: TextInputType.name,
+                                    controller: _nameController,
                                   ),
                                   const SizedBox(height: 20),
-                                  const CustomTextFormField(
+                                  CustomTextFormField(
+                                    controller: _emailController,
                                     labelText: "Email",
                                     keyboardType: TextInputType.emailAddress,
                                   ),
                                   const SizedBox(height: 20),
                                   CustomTextFormField(
+                                    controller: _passwordController,
                                     labelText: "Password",
                                     keyboardType: TextInputType.visiblePassword,
                                     isSecured: true,
@@ -109,9 +112,9 @@ class _SignupViewState extends State<SignupView> {
                                     onTap: () {
                                       if (_formKey.currentState!.validate()) {
                                         cubit.register(
-                                          email: emailController.text,
-                                          password: passwordController.text,
-                                          name: nameController.text,
+                                          email: _emailController.text,
+                                          password: _passwordController.text,
+                                          name: _nameController.text,
                                         );
                                       }
                                     },
