@@ -1,4 +1,5 @@
 import 'package:e_commerce_app_using_supabase/core/my_observer.dart';
+import 'package:e_commerce_app_using_supabase/core/sensitive_data.dart';
 import 'package:e_commerce_app_using_supabase/views/auth/logic/cubit/authentication_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:e_commerce_app_using_supabase/core/app_colors.dart';
@@ -12,8 +13,7 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Supabase.initialize(
     url: 'https://dcjaykkfynunujgbbayp.supabase.co',
-    anonKey:
-        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRjamF5a2tmeW51bnVqZ2JiYXlwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTMxNzEwMzgsImV4cCI6MjA2ODc0NzAzOH0.z8U3BA-iJv_SZaaUWUjLV7o_k2pRNlbqWJw-R06P0qA', // anon key => Api Key
+    anonKey: SensitiveData.anonKey, // anon key => Api Key
   );
   Bloc.observer = MyObserver(); // Set the BlocObserver
   runApp(const OurMarket());

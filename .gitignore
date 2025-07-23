@@ -33,6 +33,7 @@ migrate_working_dir/
 .pub/
 /build/
 
+/lib/core/sensitive_data.dart
 # Symbolication related
 app.*.symbols
 
