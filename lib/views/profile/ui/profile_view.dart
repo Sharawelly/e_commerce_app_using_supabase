@@ -45,12 +45,15 @@ class ProfileView extends StatelessWidget {
                             child: Icon(Icons.person, size: 45),
                           ),
                           const SizedBox(height: 10),
-                          const Text(
-                            "User Name",
+                          Text(
+                            cubit.userDataModel?.name.toString() ?? "User Name",
                             style: TextStyle(fontWeight: FontWeight.bold),
                           ),
                           const SizedBox(height: 10),
-                          const Text("User Email"),
+                          Text(
+                            cubit.userDataModel?.email.toString() ??
+                                "User Email",
+                          ),
                           const SizedBox(height: 10),
                           CustomRowBtn(
                             onTap: () =>

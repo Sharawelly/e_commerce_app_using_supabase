@@ -23,7 +23,7 @@ class AuthenticationCubit extends Cubit<AuthenticationState> {
         email: email,
         password: password,
       );
-
+      await getUserData();
       emit(LoginSuccess());
     } on AuthException catch (e) {
       log(e.toString());
@@ -46,6 +46,7 @@ class AuthenticationCubit extends Cubit<AuthenticationState> {
         password: password,
       );
       await addUserData(name: name, email: email);
+      await getUserData();
       emit(SignUpSuccess());
     } on AuthException catch (e) {
       log(e.toString());
