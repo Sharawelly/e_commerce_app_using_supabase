@@ -1,5 +1,4 @@
 import 'package:e_commerce_app_using_supabase/core/my_observer.dart';
-import 'package:e_commerce_app_using_supabase/views/auth/ui/signup_view.dart';
 import 'package:e_commerce_app_using_supabase/views/auth/logic/cubit/authentication_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:e_commerce_app_using_supabase/core/app_colors.dart';
