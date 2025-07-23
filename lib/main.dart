@@ -42,9 +42,8 @@ class OurMarket extends StatelessWidget {
   }
 }
 
-
 // ! Steps for making supabase:
 // ! 1) create new supabase project
 // ! 2) Add dependency supabase_flutter in pubspec.yaml
 // ! 3) initialize supabase in main.dart
-// ! 4) create AuthenticationCubit and add it to login and signup views 
+// ! 4) create AuthenticationCubit and add it to login and signup views
