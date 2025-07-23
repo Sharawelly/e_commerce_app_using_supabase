@@ -112,8 +112,8 @@ class AuthenticationCubit extends Cubit<AuthenticationState> {
     }
   }
 
-  // insert  => add only
-  // upsert => add or update
+  // ! insert  => add only
+  // ! upsert => add or update
   Future<void> addUserData({
     required String name,
     required String email,
