@@ -1,3 +1,5 @@
+import 'package:e_commerce_app_using_supabase/core/functions/navigate_to.dart';
+import 'package:e_commerce_app_using_supabase/views/home/ui/search_view.dart';
 import 'package:flutter/material.dart';
 import 'package:e_commerce_app_using_supabase/core/components/custom_search_field.dart';
 import 'package:e_commerce_app_using_supabase/core/components/products_list.dart';
@@ -13,7 +15,11 @@ class HomeView extends StatelessWidget {
       // ! we used ListView instead of Column to make the view scrollable
       child: ListView(
         children: [
-          const CustomSearchField(),
+          CustomSearchField(
+            onSearch: () {
+              navigateTo(context, SearchView());
+            },
+          ),
           const SizedBox(height: 20),
           Image.asset("assets/images/buy.jpg"),
           const SizedBox(height: 15),
