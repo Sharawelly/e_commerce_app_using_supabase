@@ -6,21 +6,29 @@ import 'package:e_commerce_app_using_supabase/core/components/product_card.dart'
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ProductsList extends StatelessWidget {
-  const ProductsList({super.key, this.shrinkWrap, this.physics});
+  const ProductsList({
+    super.key,
+    this.shrinkWrap,
+    this.physics,
+    this.searchQuery,
+  });
 
   final bool? shrinkWrap;
   final ScrollPhysics? physics;
+  final String? searchQuery;
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => HomeCubit()..getProducts(),
+      create: (context) => HomeCubit()..getProducts(query: searchQuery),
       child: BlocConsumer<HomeCubit, HomeState>(
         listener: (context, state) {
           // TODO: implement listener
         },
         builder: (context, state) {
-          List<ProductModel> products = context.read<HomeCubit>().products;
+          List<ProductModel> products = searchQuery != null
+              ? context.read<HomeCubit>().searchResults
+              : context.read<HomeCubit>().products;
           return state is GetDataLoading
               ? CustomCircleProgIndicator()
               : ListView.builder(

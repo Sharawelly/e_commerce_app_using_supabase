@@ -5,8 +5,27 @@ import 'package:e_commerce_app_using_supabase/core/components/custom_search_fiel
 import 'package:e_commerce_app_using_supabase/core/components/products_list.dart';
 import 'package:e_commerce_app_using_supabase/views/home/ui/widgets/categories_list.dart';
 
-class HomeView extends StatelessWidget {
+class HomeView extends StatefulWidget {
   const HomeView({super.key});
+
+  @override
+  State<HomeView> createState() => _HomeViewState();
+}
+
+class _HomeViewState extends State<HomeView> {
+  late final TextEditingController _searchController;
+
+  @override
+  void initState() {
+    _searchController = TextEditingController();
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _searchController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -15,9 +34,17 @@ class HomeView extends StatelessWidget {
       // ! we used ListView instead of Column to make the view scrollable
       child: ListView(
         children: [
+          SizedBox(height: 15),
           CustomSearchField(
+            searchController: _searchController,
             onSearch: () {
-              navigateTo(context, SearchView());
+              if (_searchController.text.isNotEmpty) {
+                navigateTo(
+                  context,
+                  SearchView(searchQuery: _searchController.text),
+                );
+                _searchController.clear();
+              }
             },
           ),
           const SizedBox(height: 20),
