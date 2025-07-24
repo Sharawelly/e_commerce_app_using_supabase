@@ -11,16 +11,19 @@ class ProductsList extends StatelessWidget {
     this.shrinkWrap,
     this.physics,
     this.searchQuery,
+    this.category,
   });
 
   final bool? shrinkWrap;
   final ScrollPhysics? physics;
   final String? searchQuery;
+  final String? category;
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => HomeCubit()..getProducts(query: searchQuery),
+      create: (context) =>
+          HomeCubit()..getProducts(query: searchQuery, category: category),
       child: BlocConsumer<HomeCubit, HomeState>(
         listener: (context, state) {
           // TODO: implement listener
@@ -28,6 +31,8 @@ class ProductsList extends StatelessWidget {
         builder: (context, state) {
           List<ProductModel> products = searchQuery != null
               ? context.read<HomeCubit>().searchResults
+              : category != null
+              ? context.read<HomeCubit>().categoryResults
               : context.read<HomeCubit>().products;
           return state is GetDataLoading
               ? CustomCircleProgIndicator()
