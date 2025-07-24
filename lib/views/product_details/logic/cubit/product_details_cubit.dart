@@ -30,6 +30,7 @@ class ProductDetailsCubit extends Cubit<ProductDetailsState> {
       for (var rate in response.data) {
         rates.add(RateModel.fromJson(rate));
       }
+      log(rates.toString());
       _getAverageRate();
       _getUserRate();
       emit(GetRateSuccess());
