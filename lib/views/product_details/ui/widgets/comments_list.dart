@@ -17,7 +17,7 @@ class CommentsList extends StatelessWidget {
           .eq("for_product", productModel.productId!)
           .order("created_at", ascending: false),
       builder: (context, snapshot) {
-        List<Map<String, dynamic>> comments = snapshot.data ?? [];
+        List<Map<String, dynamic>>? comments = snapshot.data;
         // ! we used ListView.separated to create a list of comments with dividers
         // ! ListView.separated ==> ListView.builder + Divider
         if (snapshot.connectionState == ConnectionState.waiting) {
@@ -26,9 +26,10 @@ class CommentsList extends StatelessWidget {
           return ListView.separated(
             shrinkWrap: true,
             physics: const NeverScrollableScrollPhysics(),
-            itemBuilder: (context, index) => const UserComment(),
+            itemBuilder: (context, index) =>
+                UserComment(commentData: comments?[index]),
             separatorBuilder: (context, index) => const Divider(),
-            itemCount: 10,
+            itemCount: comments?.length ?? 0,
           );
         } else if (!snapshot.hasData) {
           return const Center(child: Text("No comments yet"));
@@ -43,24 +44,37 @@ class CommentsList extends StatelessWidget {
 }
 
 class UserComment extends StatelessWidget {
-  const UserComment({super.key});
+  const UserComment({super.key, required this.commentData});
+
+  final Map<String, dynamic>? commentData;
 
   @override
   Widget build(BuildContext context) {
-    return const Column(
+    return Column(
       children: [
         Row(
           children: [
-            Text("User Name", style: TextStyle(fontWeight: FontWeight.bold)),
+            Text(
+              commentData?['user_name'] ?? "User Name",
+              style: TextStyle(fontWeight: FontWeight.bold),
+            ),
           ],
         ),
-        Row(children: [Text("Comment")]),
-        Row(
-          children: [
-            Text("Replay:-", style: TextStyle(fontWeight: FontWeight.bold)),
-          ],
-        ),
-        Row(children: [Text("Replay....")]),
+        Row(children: [Text(commentData?['comment'] ?? "No comment yet")]),
+        if (commentData?['replay'] != null)
+          Column(
+            children: [
+              Row(
+                children: [
+                  Text(
+                    "Replay:-",
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                ],
+              ),
+              Row(children: [Text(commentData?['replay'] ?? "No replay yet")]),
+            ],
+          ),
       ],
     );
   }
