@@ -18,6 +18,7 @@ class HomeCubit extends Cubit<HomeState> {
   List<ProductModel> searchResults = [];
   List<ProductModel> categoryResults = [];
   final String userId = Supabase.instance.client.auth.currentUser!.id;
+
   Future<void> getProducts({String? query, String? category}) async {
     emit(GetDataLoading());
     try {
@@ -58,6 +59,8 @@ class HomeCubit extends Cubit<HomeState> {
     }
   }
 
+  Map<String, bool> favoriteProducts = {};
+
   Future<void> addToFavorites(String productId) async {
     emit(AddToFavoriteLoading());
     try {
@@ -67,10 +70,17 @@ class HomeCubit extends Cubit<HomeState> {
         "for_product": productId,
       });
       log(response.toString());
+
+      favoriteProducts.addAll({productId: true});
+
       emit(AddToFavoriteSuccess());
     } catch (e) {
       log(e.toString());
       emit(AddToFavoriteError());
     }
+  }
+
+  bool checkIfFavorite(String productId) {
+    return favoriteProducts.containsKey(productId);
   }
 }
