@@ -34,6 +34,7 @@ class ProductsList extends StatelessWidget {
               : category != null
               ? context.read<HomeCubit>().categoryResults
               : context.read<HomeCubit>().products;
+          HomeCubit homeCubit = context.read<HomeCubit>();
           return state is GetDataLoading
               ? CustomCircleProgIndicator()
               : ListView.builder(
@@ -41,7 +42,12 @@ class ProductsList extends StatelessWidget {
                   physics: physics ?? const NeverScrollableScrollPhysics(),
                   itemCount: products.length,
                   itemBuilder: (context, index) {
-                    return ProductCard(product: products[index]);
+                    return ProductCard(
+                      product: products[index],
+                      onFavoritePressed: () {
+                        homeCubit.addToFavorites(products[index].productId!);
+                      },
+                    );
                   },
                 );
         },

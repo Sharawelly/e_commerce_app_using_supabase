@@ -8,9 +8,10 @@ import 'package:e_commerce_app_using_supabase/views/product_details/ui/product_d
 import '../../views/auth/ui/widgets/custom_elevated_btn.dart';
 
 class ProductCard extends StatelessWidget {
-  const ProductCard({super.key, required this.product});
+  const ProductCard({super.key, required this.product, this.onFavoritePressed});
 
   final ProductModel product;
+  final void Function()? onFavoritePressed;
 
   @override
   Widget build(BuildContext context) {
@@ -68,7 +69,7 @@ class ProductCard extends StatelessWidget {
                         ),
                       ),
                       IconButton(
-                        onPressed: () {},
+                        onPressed: onFavoritePressed,
                         icon: const Icon(
                           Icons.favorite,
                           color: AppColors.kGreyColor,
