@@ -42,13 +42,20 @@ class ProductsList extends StatelessWidget {
                   physics: physics ?? const NeverScrollableScrollPhysics(),
                   itemCount: products.length,
                   itemBuilder: (context, index) {
+                    bool isFav = homeCubit.checkIfFavorite(
+                      products[index].productId!,
+                    );
                     return ProductCard(
-                      isFavorite: homeCubit.checkIfFavorite(
-                        products[index].productId!,
-                      ),
+                      isFavorite: isFav,
                       product: products[index],
                       onFavoritePressed: () {
-                        homeCubit.addToFavorites(products[index].productId!);
+                        isFav
+                            ? homeCubit.removeFromFavorites(
+                                products[index].productId!,
+                              )
+                            : homeCubit.addToFavorites(
+                                products[index].productId!,
+                              );
                       },
                     );
                   },
