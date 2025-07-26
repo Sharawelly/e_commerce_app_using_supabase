@@ -21,6 +21,10 @@ class HomeCubit extends Cubit<HomeState> {
   final String userId = Supabase.instance.client.auth.currentUser!.id;
 
   Future<void> getProducts({String? query, String? category}) async {
+    products = [];
+    searchResults = [];
+    categoryResults = [];
+    favoriteProductList = [];
     emit(GetDataLoading());
     try {
       final Response response = await _apiServices.getData(
@@ -72,7 +76,7 @@ class HomeCubit extends Cubit<HomeState> {
         "for_product": productId,
       });
       log(response.toString());
-
+      await getProducts();
       favoriteProducts.addAll({productId: true});
 
       emit(AddToFavoriteSuccess());
@@ -93,7 +97,7 @@ class HomeCubit extends Cubit<HomeState> {
         'favorite_products?for_product=eq.$productId&for_user=eq.$userId',
       );
       log(response.toString());
-
+      await getProducts();
       favoriteProducts.removeWhere((key, value) {
         return key == productId;
       });

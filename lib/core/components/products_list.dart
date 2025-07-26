@@ -12,12 +12,14 @@ class ProductsList extends StatelessWidget {
     this.physics,
     this.searchQuery,
     this.category,
+    this.isFavoriteView = false,
   });
 
   final bool? shrinkWrap;
   final ScrollPhysics? physics;
   final String? searchQuery;
   final String? category;
+  final bool isFavoriteView;
 
   @override
   Widget build(BuildContext context) {
@@ -29,12 +31,15 @@ class ProductsList extends StatelessWidget {
           // TODO: implement listener
         },
         builder: (context, state) {
-          List<ProductModel> products = searchQuery != null
-              ? context.read<HomeCubit>().searchResults
-              : category != null
-              ? context.read<HomeCubit>().categoryResults
-              : context.read<HomeCubit>().products;
           HomeCubit homeCubit = context.read<HomeCubit>();
+          List<ProductModel> products = searchQuery != null
+              ? homeCubit.searchResults
+              : category != null
+              ? homeCubit.categoryResults
+              : isFavoriteView
+              ? homeCubit.favoriteProductList
+              : homeCubit.products;
+
           return state is GetDataLoading
               ? CustomCircleProgIndicator()
               : ListView.builder(
