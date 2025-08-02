@@ -1,5 +1,6 @@
 import 'package:e_commerce_app_using_supabase/core/components/custom_circle_pro_ind.dart';
 import 'package:e_commerce_app_using_supabase/core/functions/show_message.dart';
+import 'package:e_commerce_app_using_supabase/views/auth/logic/models/user_data_model.dart';
 import 'package:e_commerce_app_using_supabase/views/nav_bar/ui/main_home_view.dart';
 import 'package:e_commerce_app_using_supabase/views/auth/logic/cubit/authentication_cubit.dart';
 import 'package:flutter/material.dart';
@@ -47,9 +48,15 @@ class _SignupViewState extends State<SignupView> {
             showMessage(context, state.errorMessage);
           }
           if (state is SignUpSuccess || state is GoogleSignInSuccess) {
+            UserDataModel userDataModel = context
+                .read<AuthenticationCubit>()
+                .userDataModel!;
             Navigator.pushReplacement(
               context,
-              MaterialPageRoute(builder: (context) => MainHomeView()),
+              MaterialPageRoute(
+                builder: (context) =>
+                    MainHomeView(userDataModel: userDataModel),
+              ),
             );
           }
         },

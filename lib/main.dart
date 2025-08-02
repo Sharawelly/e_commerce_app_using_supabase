@@ -1,6 +1,8 @@
+import 'package:e_commerce_app_using_supabase/core/components/custom_circle_pro_ind.dart';
 import 'package:e_commerce_app_using_supabase/core/my_observer.dart';
 import 'package:e_commerce_app_using_supabase/core/sensitive_data.dart';
 import 'package:e_commerce_app_using_supabase/views/auth/logic/cubit/authentication_cubit.dart';
+import 'package:e_commerce_app_using_supabase/views/auth/logic/models/user_data_model.dart';
 import 'package:flutter/material.dart';
 import 'package:e_commerce_app_using_supabase/core/app_colors.dart';
 import 'package:e_commerce_app_using_supabase/views/nav_bar/ui/main_home_view.dart';
@@ -16,7 +18,12 @@ void main() async {
     anonKey: SensitiveData.anonKey, // anon key => Api Key
   );
   Bloc.observer = MyObserver(); // Set the BlocObserver
-  runApp(const OurMarket());
+  runApp(
+    BlocProvider(
+      create: (context) => AuthenticationCubit()..getUserData(),
+      child: const OurMarket(),
+    ),
+  );
 }
 
 class OurMarket extends StatelessWidget {
@@ -25,23 +32,26 @@ class OurMarket extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => AuthenticationCubit()..getUserData(),
-      child: MaterialApp(
-        debugShowCheckedModeBanner: false,
-        title: 'Our Market',
-        theme: ThemeData(
-          scaffoldBackgroundColor: AppColors.kScaffoldColor,
-          useMaterial3: true,
-        ),
-        home: Supabase.instance.client.auth.currentUser != null
-            ? MainHomeView(
-                userDataModel: context
-                    .read<AuthenticationCubit>()
-                    .userDataModel!,
-              )
-            : LoginView(),
-      ),
+    return BlocBuilder<AuthenticationCubit, AuthenticationState>(
+      builder: (context, state) {
+        return MaterialApp(
+          debugShowCheckedModeBanner: false,
+          title: 'Our Market',
+          theme: ThemeData(
+            scaffoldBackgroundColor: AppColors.kScaffoldColor,
+            useMaterial3: true,
+          ),
+          home: Supabase.instance.client.auth.currentUser != null
+              ? state is GetUserDataLoading
+                    ? Scaffold(body: Center(child: CustomCircleProgIndicator()))
+                    : MainHomeView(
+                        userDataModel: context
+                            .read<AuthenticationCubit>()
+                            .userDataModel!,
+                      )
+              : LoginView(),
+        );
+      },
     );
   }
 }

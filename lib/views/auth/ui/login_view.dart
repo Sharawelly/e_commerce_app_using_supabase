@@ -2,6 +2,7 @@ import 'package:e_commerce_app_using_supabase/core/components/custom_circle_pro_
 import 'package:e_commerce_app_using_supabase/core/functions/navigate_without_back.dart';
 import 'package:e_commerce_app_using_supabase/core/functions/show_message.dart';
 import 'package:e_commerce_app_using_supabase/views/auth/logic/cubit/authentication_cubit.dart';
+import 'package:e_commerce_app_using_supabase/views/auth/logic/models/user_data_model.dart';
 import 'package:flutter/material.dart';
 import 'package:e_commerce_app_using_supabase/core/app_colors.dart';
 import 'package:e_commerce_app_using_supabase/core/functions/navigate_to.dart';
@@ -49,7 +50,13 @@ class _LoginViewState extends State<LoginView> {
           showMessage(context, state.errorMessage);
         }
         if (state is LoginSuccess || state is GoogleSignInSuccess) {
-          navigateWithoutBack(context, MainHomeView());
+          UserDataModel userDataModel = context
+              .read<AuthenticationCubit>()
+              .userDataModel!;
+          navigateWithoutBack(
+            context,
+            MainHomeView(userDataModel: userDataModel),
+          );
         }
       },
       builder: (context, state) {
