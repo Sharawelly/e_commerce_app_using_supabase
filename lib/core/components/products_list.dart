@@ -14,6 +14,7 @@ class ProductsList extends StatelessWidget {
     this.searchQuery,
     this.category,
     this.isFavoriteView = false,
+    this.isMyOrdersView = false,
   });
 
   final bool? shrinkWrap;
@@ -21,6 +22,7 @@ class ProductsList extends StatelessWidget {
   final String? searchQuery;
   final String? category;
   final bool isFavoriteView;
+  final bool isMyOrdersView;
 
   @override
   Widget build(BuildContext context) {
@@ -42,6 +44,8 @@ class ProductsList extends StatelessWidget {
               ? homeCubit.categoryResults
               : isFavoriteView
               ? homeCubit.favoriteProductList
+              : isMyOrdersView
+              ? homeCubit.userOrders
               : homeCubit.products;
 
           return state is GetDataLoading

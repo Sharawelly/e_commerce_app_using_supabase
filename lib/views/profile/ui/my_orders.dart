@@ -14,6 +14,7 @@ class MyOrdersView extends StatelessWidget {
         child: ProductsList(
           shrinkWrap: false,
           physics: BouncingScrollPhysics(),
+          isMyOrdersView: true,
         ),
       ),
     );
