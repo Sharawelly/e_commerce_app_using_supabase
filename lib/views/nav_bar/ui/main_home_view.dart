@@ -1,3 +1,4 @@
+import 'package:e_commerce_app_using_supabase/views/auth/logic/models/user_data_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
@@ -8,14 +9,27 @@ import 'package:e_commerce_app_using_supabase/views/nav_bar/logic/cubit/nav_bar_
 import 'package:e_commerce_app_using_supabase/views/profile/ui/profile_view.dart';
 import 'package:e_commerce_app_using_supabase/views/store/ui/store_view.dart';
 
-class MainHomeView extends StatelessWidget {
-  MainHomeView({super.key});
-  final List<Widget> views = [
-    const HomeView(),
-    const StoreView(),
-    const FavoriteView(),
-    const ProfileView(),
-  ];
+class MainHomeView extends StatefulWidget {
+  const MainHomeView({super.key, required this.userDataModel});
+  final UserDataModel userDataModel;
+
+  @override
+  State<MainHomeView> createState() => _MainHomeViewState();
+}
+
+class _MainHomeViewState extends State<MainHomeView> {
+  late List<Widget> views;
+  @override
+  void initState() {
+    views = [
+      HomeView(userDataModel: widget.userDataModel),
+      const StoreView(),
+      const FavoriteView(),
+      const ProfileView(),
+    ];
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return BlocProvider(

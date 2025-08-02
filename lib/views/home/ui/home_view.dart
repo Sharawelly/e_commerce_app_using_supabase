@@ -1,6 +1,7 @@
 import 'package:e_commerce_app_using_supabase/core/app_colors.dart';
 import 'package:e_commerce_app_using_supabase/core/functions/navigate_to.dart';
 import 'package:e_commerce_app_using_supabase/core/sensitive_data.dart';
+import 'package:e_commerce_app_using_supabase/views/auth/logic/models/user_data_model.dart';
 import 'package:e_commerce_app_using_supabase/views/home/ui/search_view.dart';
 import 'package:flutter/material.dart';
 import 'package:e_commerce_app_using_supabase/core/components/custom_search_field.dart';
@@ -9,7 +10,8 @@ import 'package:e_commerce_app_using_supabase/views/home/ui/widgets/categories_l
 import 'package:pay_with_paymob/pay_with_paymob.dart';
 
 class HomeView extends StatefulWidget {
-  const HomeView({super.key});
+  const HomeView({super.key, required this.userDataModel});
+  final UserDataModel userDataModel;
 
   @override
   State<HomeView> createState() => _HomeViewState();
@@ -32,10 +34,10 @@ class _HomeViewState extends State<HomeView> {
           .payMobIntegrationMobileWalletId, // Required: Found under Developers -> Payment Integrations -> Mobile Wallet ID
       // Optional User Data
       userData: UserData(
-        email: "User Email", // Optional: Defaults to 'NA'
-        phone: "User Phone", // Optional: Defaults to 'NA'
-        name: "User First Name", // Optional: Defaults to 'NA'
-        lastName: "User Last Name", // Optional: Defaults to 'NA'
+        email: widget.userDataModel.email, // Optional: Defaults to 'NA'
+        // phone: "User Phone", // Optional: Defaults to 'NA'
+        name: widget.userDataModel.name, // Optional: Defaults to 'NA'
+        // lastName: "User Last Name", // Optional: Defaults to 'NA'
       ),
 
       // Optional Style Customizations
