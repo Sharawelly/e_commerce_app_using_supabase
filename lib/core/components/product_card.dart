@@ -1,9 +1,14 @@
+// import 'dart:nativewrappers/_internal/vm/lib/developer.dart';
+
+import 'dart:developer';
+
 import 'package:e_commerce_app_using_supabase/core/models/product_model/product_model.dart';
 import 'package:flutter/material.dart';
 import 'package:e_commerce_app_using_supabase/core/app_colors.dart';
 import 'package:e_commerce_app_using_supabase/core/components/cache_image.dart';
 import 'package:e_commerce_app_using_supabase/core/functions/navigate_to.dart';
 import 'package:e_commerce_app_using_supabase/views/product_details/ui/product_details_view.dart';
+import 'package:pay_with_paymob/pay_with_paymob.dart';
 
 import '../../views/auth/ui/widgets/custom_elevated_btn.dart';
 
@@ -107,7 +112,33 @@ class ProductCard extends StatelessWidget {
                           ),
                         ],
                       ),
-                      CustomEBtn(text: "Buy Now", onTap: () {}),
+                      CustomEBtn(
+                        text: "Buy Now",
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => PaymentView(
+                                onPaymentSuccess: () {
+                                  // Handle payment success
+                                  log(
+                                    "Payment Success :) :) :) :) :) :) :) :)",
+                                  );
+                                },
+                                onPaymentError: () {
+                                  // Handle payment failure
+                                  log(
+                                    "Payment Failure :( :( :( :( :( :( :( :(",
+                                  );
+                                },
+                                price: double.parse(
+                                  product.price!,
+                                ), // Required: Total price (e.g., 100 for 100 EGP)
+                              ),
+                            ),
+                          );
+                        },
+                      ),
                     ],
                   ),
                 ],
